@@ -1,6 +1,7 @@
 //bring in what we will need
 const express = require('express');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 
 //establish routes 
 const users = require('./routes/api/users');
@@ -10,6 +11,10 @@ const posts = require('./routes/api/posts');
 
 //set app equal to express
 const app = express();
+
+//Body Parser Middleware
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json())
 
 //DB config
 const db = require('./config/keys').mongoURI;
@@ -24,6 +29,7 @@ mongoose
 app.get('/', (req, res) => res.send('Hello! Taylor'));
 
 //Use routes
+//this tells this url to go to the file URL that users, profile or posts is set to in the above established routes section
 app.use('/api/users', users);
 app.use('/api/profile', profile);
 app.use('/api/posts', posts);
