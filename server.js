@@ -1,7 +1,9 @@
 //bring in what we will need
 const express = require('express');
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
+const bodyParser = require('body-parser'); 
+//passport to validate jwt token - requires middleware 
+const passport = require('passport');
 
 //establish routes 
 const users = require('./routes/api/users');
@@ -25,8 +27,11 @@ mongoose
     .then(() => console.log('MongoDB Connected'))
     .catch(err => console.log(err))
 
-//route
-app.get('/', (req, res) => res.send('Hello! Taylor'));
+//passport middleware
+app.use(passport.initialize());
+
+//Passport Config
+require('./config/passport.js')(passport);
 
 //Use routes
 //this tells this url to go to the file URL that users, profile or posts is set to in the above established routes section
